@@ -1,0 +1,65 @@
+
+<!DOCTYPE html>
+<html lang="en">
+<head>
+  <meta charset="UTF-8" />
+  <meta name="viewport" content="width=device-width, initial-scale=1.0" />
+  <title>FAQ Accordion</title>
+  <script src="https://unpkg.com/react@18/umd/react.development.js"></script>
+  <script src="https://unpkg.com/react-dom@18/umd/react-dom.development.js"></script>
+  <script src="https://unpkg.com/@babel/standalone/babel.min.js"></script>
+  <style>
+    body { font-family: Arial, sans-serif; max-width: 700px; margin: 40px auto; padding: 0 20px; }
+    .faq-item { border-bottom: 1px solid #ddd; padding: 12px 0; }
+    button { width: 100%; text-align: left; padding: 12px; cursor: pointer; border: 0; background: #f3f4f6; font-size: 16px; }
+    button span { float: right; }
+    p { padding: 0 12px; line-height: 1.5; }
+  </style>
+</head>
+<body>
+  <div id="root"></div>
+
+  <script type="text/babel">
+    const { useState } = React;
+
+    const faqs = [
+      { id: 1, question: "How do I reset my password?", answer: "Go to Settings > Security and click Reset Password." },
+      { id: 2, question: "Can I change my email?", answer: "Yes, under Settings > Account, update your email and confirm it." },
+      { id: 3, question: "How do I cancel my subscription?", answer: "Go to Billing and click Cancel Plan. You'll keep access until the period ends." },
+      { id: 4, question: "Is there a mobile app?", answer: "Yes, it's available on iOS and Android, search for the app name in either store." }
+    ];
+
+    function FaqItem({ question, answer }) {
+      const [isExpanded, setIsExpanded] = useState(false);
+
+      return (
+        <div className="faq-item">
+          <button onClick={() => setIsExpanded(!isExpanded)}>
+            {question}
+            <span>{isExpanded ? "▼" : "▶"}</span>
+          </button>
+          {isExpanded && <p>{answer}</p>}
+        </div>
+      );
+    }
+
+    function FaqList({ faqs }) {
+      return (
+        <div>
+          <h1>Frequently Asked Questions</h1>
+          {faqs.map(faq => (
+            <FaqItem key={faq.id} question={faq.question} answer={faq.answer} />
+          ))}
+        </div>
+      );
+    }
+
+    function App() {
+      return <FaqList faqs={faqs} />;
+    }
+
+    ReactDOM.createRoot(document.getElementById("root")).render(<App />);
+  </script>
+</body>
+</html>
+
